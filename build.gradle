@@ -1,0 +1,55 @@
+plugins {
+    id 'java'
+    id 'io.quarkus'
+}
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+    implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
+    implementation 'io.quarkus:quarkus-mongodb-panache'
+    implementation 'io.quarkiverse.quinoa:quarkus-quinoa:2.2.1'
+    implementation 'io.quarkus:quarkus-resteasy'
+    implementation 'io.quarkus:quarkus-arc'
+    testImplementation 'io.quarkus:quarkus-junit5'
+    testImplementation 'io.rest-assured:rest-assured'
+
+    // https://mvnrepository.com/artifact/org.telegram/telegrambots
+    implementation 'org.telegram:telegrambots:6.8.0'
+    // https://mvnrepository.com/artifact/io.quarkiverse.minio/quarkus-minio
+    implementation 'io.quarkiverse.minio:quarkus-minio:3.3.1'
+
+/*  in case using minio from docker-compose
+    implementation(enforcedPlatform("com.squareup.okhttp3:okhttp-bom:4.10.0")) {
+        because("MinIO requires OkHttp >= 4.8.1")
+    }
+    implementation(enforcedPlatform("com.squareup.okio:okio-bom:3.2.0")) {
+        because("OkHttp")
+    }
+    // https://mvnrepository.com/artifact/io.minio/minio
+    implementation 'io.minio:minio:8.3.0'
+*/
+}
+
+group 'com.example'
+version '1.0.0-SNAPSHOT'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+test {
+    systemProperty "java.util.logging.manager", "org.jboss.logmanager.LogManager"
+}
+compileJava {
+    options.encoding = 'UTF-8'
+    options.compilerArgs << '-parameters'
+}
+
+compileTestJava {
+    options.encoding = 'UTF-8'
+}

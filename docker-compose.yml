@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  mongo:
+    image: mongo
+    restart: always
+    ports:
+      - 27018:27017
+    networks:
+      - nw
+
+  minio:
+    image: minio/minio
+    restart: always
+    ports:
+      - 9000:9000
+      - 9001:9001
+    volumes:
+      - ~/minio/data:/data
+    environment:
+      - MINIO_ROOT_USER=testtest
+      - MINIO_ROOT_PASSWORD=testtest
+    command: server /data --console-address ":9001"
+    networks:
+      - nw
+
+networks:
+  nw:
